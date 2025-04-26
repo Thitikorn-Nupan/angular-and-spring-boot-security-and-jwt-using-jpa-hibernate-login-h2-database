@@ -17,9 +17,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 public class JwtRequestFilter extends OncePerRequestFilter {
-    private JwtUserDetailsService jwtUserDetailsService;
-    private JwtTokenUtil jwtTokenUtil;
-    private Logging logging;
+    private final JwtUserDetailsService jwtUserDetailsService;
+    private final JwtTokenUtil jwtTokenUtil;
+    private final Logging logging;
     @Autowired
     public JwtRequestFilter(
             @Qualifier("detailsService") JwtUserDetailsService jwtUserDetailsService,
@@ -35,8 +35,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain chain
     ) throws ServletException, IOException, ServletException, IOException {
-        final String REQUEST_TOKEN_FROM_HEADER = request.getHeader("Authorization"); // name for header. you can use Postman to specify this part (setting header)
-        /*
+        final String REQUEST_TOKEN_FROM_AUTH_HEADER = request.getHeader("Authorization"); // name for header. you can use Postman to specify this part (setting header)
+        /**
             How does it work ?
             * Retrieve the username by parsing the Bearer Token and subsequently search for the corresponding user information in the database. (assume)
             * Verify the authenticity of the JWT.
@@ -47,14 +47,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         // JWT Token is in the form "Bearer <token>". Remove Bearer word and get
         // only the Token
-        if ((REQUEST_TOKEN_FROM_HEADER != null) && REQUEST_TOKEN_FROM_HEADER.startsWith("Bearer ")) { // *** why I use Bearer because it has some reason
+        if ((REQUEST_TOKEN_FROM_AUTH_HEADER != null) && REQUEST_TOKEN_FROM_AUTH_HEADER.startsWith("Bearer ")) { // *** why I use Bearer because it has some reason
 
-            jwtToken = REQUEST_TOKEN_FROM_HEADER.substring(7); // get token only 7 element
+            jwtToken = REQUEST_TOKEN_FROM_AUTH_HEADER.substring(7); // get token only 7 element
 
             try {
 
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
-                logging.logBack.info("\n***doFilterInternal() override method works\n***username "+username+"\n***has token "+jwtToken);
+                logging.logBack.info("\n***doFilterInternal() override method works and auth header exist\n***username {}\n***has token {}",username,jwtToken);
 
             } catch (IllegalArgumentException e) {
 
@@ -93,9 +93,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                                 .buildDetails(request)
                 );
 
-                // After setting the Authentication in the context, we specify
-                // that the current user is authenticated.
-                // So it passes the Spring Security Configurations successfully
+                // After setting the Authentication in the context, we specify that the current user is authenticated.  So it passes the Spring Security Configurations successfully
                 SecurityContextHolder
                         .getContext()
                         .setAuthentication(usernamePasswordAuthenticationToken);

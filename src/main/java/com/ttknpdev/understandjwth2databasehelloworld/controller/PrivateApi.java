@@ -8,8 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/ttknpdev")
-@CrossOrigin(origins="http://localhost:4200") // very importance it works like module cors in node
+@RequestMapping(value = "/api")
+@CrossOrigin(origins= {"http://localhost:4200","http://thitikorn-nupan.com:4201","http://localhost:4201"}) // very importance it works like module cors in node
 // /ttknpdev/book-store/programing/reads (alex)
 public class PrivateApi {
     private BookDao bookDao;

@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class BeansConfiguration {
+
     @Bean(name = "entryPoint")
     public JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint() {
         return new JwtAuthenticationEntryPoint();
@@ -26,11 +27,12 @@ public class BeansConfiguration {
     public JwtTokenUtil jwtTokenUtil() {
         return new JwtTokenUtil();
     }
-    @Bean(name = "detailsService")
-    // use @Bean instead @Service
+
+    @Bean(name = "detailsService") // use @Bean instead @Service if you create bean this way
     public JwtUserDetailsService jwtUserDetailsService() {
         return new JwtUserDetailsService();
     }
+
     @Bean(name = "bcryptEncoder")
     public PasswordEncoder getBcryptEncoder() {
         return new BCryptPasswordEncoder();

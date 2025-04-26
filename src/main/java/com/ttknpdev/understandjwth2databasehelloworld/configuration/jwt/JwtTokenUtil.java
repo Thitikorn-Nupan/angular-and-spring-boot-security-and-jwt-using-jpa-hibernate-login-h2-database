@@ -13,10 +13,13 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class JwtTokenUtil {
-    private final long JWT_TOKEN_VALIDITY = 60 * 60 * 1000; // 1 hour
+
+    // 1 h = 3600000 ms
+    private final long JWT_TOKEN_VALIDITY = 3600000; // 1 hour
+    private final Logging logging;
     @Value("${JWT.SECRET}")
     private String secret;
-    private Logging logging;
+
     public JwtTokenUtil() {
         logging = new Logging(this.getClass());
     }
@@ -26,10 +29,10 @@ public class JwtTokenUtil {
         logging.logBack.info("validateToken() works");
         final String username = getUsernameFromToken(token);
         if (username.equals(userDetails.getUsername()) && !isTokenExpired(token)) {
-            logging.logBack.info("User exists and token doesn't expire");
+            logging.logBack.info("User {} exists and token doesn't expire ",userDetails.getUsername());
             return true;
         } else {
-            logging.logBack.warn("User did not exists");
+            logging.logBack.warn("User {} did not exists" , userDetails.getUsername());
             return false;
         }
     }
@@ -39,7 +42,6 @@ public class JwtTokenUtil {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
-    // **
     public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = getAllClaimsFromToken(token);
         return claimsResolver
@@ -78,10 +80,9 @@ public class JwtTokenUtil {
                 userDetails.getUsername()
         );
     }
+
     private String doGenerateToken(Map<String, Object> claims, String subject) {
-       /*
-           Here, the doGenerateToken() method creates a JSON Web Token
-        */
+        // Here, the doGenerateToken() method creates a JSON Web Token
         logging.logBack.info("doGenerateToken() works");
         System.out.println(System.currentTimeMillis());
         // issue (v. ออก)
@@ -90,7 +91,7 @@ public class JwtTokenUtil {
                 .setClaims(claims)
                 .setSubject(subject) // Subject is combination of the username
                 .setIssuedAt(new Date()) // The token is issued at the current date and time
-                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000)) // The token should expire after 24 hours
+                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY)) // The token should expire after 1 h
                 .signWith(SignatureAlgorithm.HS512, secret) // The token is signed using a secret key, which you can specify in the application.properties file or from system environment variable
                 .compact();
     }

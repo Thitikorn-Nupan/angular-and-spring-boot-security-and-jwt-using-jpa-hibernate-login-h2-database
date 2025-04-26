@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins="http://localhost:4200") // very importance it works like module cors in node
+@CrossOrigin(origins= {"http://localhost:4200","http://thitikorn-nupan.com:4201","http://localhost:4201"}) // very importance it works like module cors in node
 @RequestMapping(value = "/jwt")
 public class PublicApi {
     private AuthenticationManager authenticationManager;
@@ -45,11 +45,13 @@ public class PublicApi {
         logging = new Logging(this.getClass());
     }
 
+    // *** Do first
     // method for request token and check username has alive
+    // method for logged in
     @PostMapping(value = "/token")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest jwtRequest) throws Exception {
 
-        logging.logBack.info("http://localhost:8080/jwt/token is accessed (Public API)");
+        logging.logBack.info("http://***/jwt/token is accessed (Public API)");
 
         authenticate( jwtRequest.getUsername() , jwtRequest.getPassword() );
 
@@ -69,6 +71,7 @@ public class PublicApi {
                 .status(HttpStatus.CREATED)
                 .body(userDao.create(user));
     }
+
     private void authenticate(String username, String password) throws Exception {
 
         try {

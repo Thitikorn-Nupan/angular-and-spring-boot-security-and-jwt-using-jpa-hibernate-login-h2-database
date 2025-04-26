@@ -10,7 +10,8 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import java.io.IOException;
 
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
-    private Logging logging;
+
+    private final Logging logging;
 
     public JwtAuthenticationEntryPoint() {
         this.logging = new Logging(this.getClass());
@@ -20,12 +21,13 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request,
                          HttpServletResponse response,
                          AuthenticationException authException) throws IOException, ServletException {
-        /*
+        /**
             request - that resulted in an AuthenticationException
             response - so that the user agent can begin authentication
             authException - that caused the invocation
         */
         logging.logBack.warn("\n***commence() override method works (rejects every unauthenticated request)\n***Maybe, you are not invalid role");
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "unauthorized in this secure API");
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setHeader("Message-Failed","unauthorized in this secure API");
     }
 }

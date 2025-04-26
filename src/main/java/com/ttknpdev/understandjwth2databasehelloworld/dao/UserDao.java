@@ -9,8 +9,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserDao {
-    private UserRepository repository;
-    private PasswordEncoder bcryptEncoder;
+    private final UserRepository repository;
+    private final PasswordEncoder bcryptEncoder;
+
     @Autowired
     public UserDao(UserRepository repository,
                    @Qualifier("bcryptEncoder") PasswordEncoder bcryptEncoder) {

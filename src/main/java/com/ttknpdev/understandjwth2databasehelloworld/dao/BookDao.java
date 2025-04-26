@@ -12,20 +12,26 @@ import java.util.Optional;
 
 @Service
 public class BookDao {
-    private BookRepository bookRepository;
+
+    private final BookRepository bookRepository;
+
     @Autowired
     public BookDao(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
+
     public List<Book> reads() {
         return (List<Book>) bookRepository.findAll();
     }
+
     public Optional<Book> read(String bid) {
         return bookRepository.findById(bid);
     }
+
     public Book create (Book book) {
         return bookRepository.save(book);
     }
+
     public Map<String,Book> update(Book book , String bid){
         Map<String,Book> response = new HashMap<>();
         return bookRepository.findById(bid).map(oldBook ->  {
@@ -36,6 +42,7 @@ public class BookDao {
             return response;
         }).orElseThrow(RuntimeException::new);
     }
+
     public Map<String,Boolean> delete(String bid) {
         Map<String,Boolean> response = new HashMap<>();
         return bookRepository.findById(bid).map(book -> {

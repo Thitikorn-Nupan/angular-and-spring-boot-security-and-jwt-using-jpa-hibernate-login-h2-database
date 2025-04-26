@@ -1,9 +1,9 @@
 package com.ttknpdev.understandjwth2databasehelloworld.entities.jwt;
 
 
-/*
+/**
    (Just showing TOKEN like java POJO )
-   This is class is required for creating a response containing the JWT to be returned to the user.
+   This is class is required for containing JWT on response that returned to the user.
 */
 public class JwtResponse {
     private String JWT;

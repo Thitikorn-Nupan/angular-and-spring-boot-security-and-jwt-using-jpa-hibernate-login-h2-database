@@ -18,19 +18,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-/*
-    It's my config
-    but, I don't need to specify it
-    because I will call it
-    pass by @bean -> SecurityConfig class -> SecurityFilterChain method
+/**
+
 */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
-    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private PasswordEncoder passwordEncoder;
-    private JwtRequestFilter jwtRequestFilter;
-    private JwtUserDetailsService jwtUserDetailsService;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtRequestFilter jwtRequestFilter;
+    private final JwtUserDetailsService jwtUserDetailsService;
+
     @Autowired
     public SecurityConfiguration(
                                @Qualifier("entryPoint") JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
@@ -42,6 +40,7 @@ public class SecurityConfiguration {
         this.jwtUserDetailsService = jwtUserDetailsService;
         this.passwordEncoder = passwordEncoder;
     }
+
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         // configure AuthenticationManager so that it knows from where to load user for matching credentials. Use BCryptPasswordEncoder
@@ -60,19 +59,20 @@ public class SecurityConfiguration {
         httpSecurity
                 .authorizeHttpRequests((authenticate) ->
                         authenticate
-                                // it won't authenticate this particular request
-                                /*
+                                // it won't authenticate this particular request => .permitAll()
+                                /**
                                     If you’ve enabled Spring Security in your Spring Boot application,
                                     you will not be able to access the H2 database console.
                                     With its default settings under Spring Boot,
                                     Spring Security will block access to H2 database console.
                                     (don't forget to change h2-console default path)
+                                    *** you have to set httpSecurity.headers().frameOptions().disable();
                                 */
                                 .requestMatchers("/console/**").permitAll()
                                 .requestMatchers("/jwt/**").permitAll()
                                 // it will authenticate this particular request who has Role like below it can access
-                                .requestMatchers(HttpMethod.GET,"/ttknpdev/test").hasAnyRole("NORMAL","USER")
-                                .requestMatchers(HttpMethod.GET,"/ttknpdev/book-store/**").hasRole("USER")
+                                .requestMatchers(HttpMethod.GET,"/api/test").hasAnyRole("NORMAL","USER")
+                                .requestMatchers(HttpMethod.GET,"/api/book-store/programing/reads").hasRole("USER")
                                 // and all other requests need to be authenticated
                                 .anyRequest()
                                 .authenticated()
@@ -82,19 +82,16 @@ public class SecurityConfiguration {
                 // store user's state.
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         httpSecurity.addFilterBefore(jwtRequestFilter , UsernamePasswordAuthenticationFilter.class);
-
         httpSecurity.csrf().disable();
         httpSecurity.httpBasic();
         httpSecurity.headers().frameOptions().disable();
-        /*
-           when you need to use console of h2 you just specify  httpSecurity.headers().frameOptions().disable(); it works for case
-           ** i try to access it can into login page but h2 page doesn't load
+        /**
+           when you need to use console of h2 you just specify  httpSecurity.headers().frameOptions().disable();
          */
         return httpSecurity.build();
     }
