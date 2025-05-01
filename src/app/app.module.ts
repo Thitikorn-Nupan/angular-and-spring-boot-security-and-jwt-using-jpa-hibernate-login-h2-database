@@ -9,6 +9,8 @@ import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import { EditBookComponent } from './components/edit-book/edit-book.component';
 import { LogoutComponent } from './components/logout/logout.component';
+import { LoadingComponent } from './components/loading/loading.component';
+import { MenuComponent } from './components/menu/menu.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { LogoutComponent } from './components/logout/logout.component';
     ListBookComponent,
     FormLoginComponent,
     EditBookComponent,
-    LogoutComponent
+    LogoutComponent,
+    LoadingComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,

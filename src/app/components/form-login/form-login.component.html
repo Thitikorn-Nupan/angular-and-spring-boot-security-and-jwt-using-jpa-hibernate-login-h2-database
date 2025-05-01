@@ -4,10 +4,10 @@
       <div class="card px-5 py-5" id="form1">
         <div class="form-data">
           <div class="forms-inputs mb-4"> <span>Email or username</span>
-            <input class="w-100" autocomplete="off" type="text"  [(ngModel)]="username">
+            <input class="w-100" autocomplete="off" type="text"  [(ngModel)]="user.username">
           </div>
           <div class="forms-inputs mb-4"> <span>Password</span>
-            <input class="w-100" autocomplete="off" type="password" [(ngModel)]="password">
+            <input class="w-100" autocomplete="off" type="password" [(ngModel)]="user.password">
           </div>
           <div class="mb-3"> <button type="submit" class="btn btn-dark w-100 " (click)=checkLogin()>Login</button> </div>
         </div>

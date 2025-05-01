@@ -1,9 +1,13 @@
 {
   "name": "lab-ag-and-spring-boot-login-with-h2-database-and-get-jwt",
   "version": "0.0.0",
+  "comment" : [
+    "*** ng serve --open mean open browser"
+  ],
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "development": "ng serve --configuration development",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",

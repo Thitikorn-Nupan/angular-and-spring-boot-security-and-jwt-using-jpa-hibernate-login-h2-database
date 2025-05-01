@@ -1,43 +1,51 @@
-<!--
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-3">
   <div class="container-fluid">
-    <a class="navbar-brand p-lg-3">Angular + Spring Boot (authenticate JWT)</a>
-
+    <a class="navbar-brand p-lg-3">{{title}}</a>
     <div class=" collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav ms-auto ">
 
+      <ul class="navbar-nav ms-auto ">
+        <!--
         <div *ngIf="isUserLoggedIn else login">
           <li class="nav-item p-lg-3">
             <a class="nav-link mx-2" routerLink="logout" routerLinkActive="active">Logout</a>
           </li>
         </div>
+        -->
 
-        <ng-template #login>
+        <ng-template #logout>
           <li class="nav-item p-lg-3">
-            <a class="nav-link mx-2" routerLink="login" routerLinkActive="active">Login</a>
+            <!--<a class="nav-link mx-2" [routerLink]="routersLink[0].router" routerLinkActive="active">{{routersLink[0].label}}</a>-->
+            <a class="nav-link mx-2" style="cursor: pointer" (click)="logoutClick()">{{routersLink[0].label}}</a>
           </li>
         </ng-template>
 
+        <ng-template #login>
+          <li class="nav-item p-lg-3">
+            <a class="nav-link mx-2" [routerLink]="routersLink[1].router" routerLinkActive="active">{{routersLink[1].label}}</a>
+          </li>
+        </ng-template>
 
+        <ng-container *ngIf="isUserLoggedIn then logout else login">
+          <!-- ng-template render here -->
+        </ng-container>
 
         <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
           <ul class="navbar-nav">
             <li class="nav-item dropdown p-lg-3">
               <a class="nav-link dropdown-toggle" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Book-store
+                {{routersLink[2].header}}
               </a>
               <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                <li><a class="dropdown-item bg-dark p-2" routerLink="book/list">Books List</a></li>
+                <li><a class="dropdown-item bg-dark p-2" [routerLink]="routersLink[2].router">{{routersLink[2].label}}</a></li>
               </ul>
             </li>
           </ul>
         </div>
+
       </ul>
     </div>
   </div>
 </nav>
--->
-<menubar></menubar>
 
-<router-outlet></router-outlet>
+
 

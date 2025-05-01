@@ -21,11 +21,13 @@ export class LogoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.authenticationService.logOut()
-    let user = this.authenticationService.isUserLoggedInAndGetUser() // it will be null
-    let jwt = this.authenticationService.isUserLoggedInAndGetToken() // it will be null
-    console.log('(after deleted session storage) user '+user+' has token '+jwt)
+    /*let user = this.authenticationService.isUserLoggedInAndGetUser() // it will be null
+    let jwt = this.authenticationService.isUserLoggedInAndGetToken() // it will be null*/
+    /*console.log('(after deleted session storage) user '+user+' has token '+jwt)*/
     this.ngZone.run(() => {
-      this.router.navigateByUrl('') // go to path
+      this.router.navigateByUrl('login').then(()=> {
+        window.location.reload()
+      }) // go to path
     })
   }
 

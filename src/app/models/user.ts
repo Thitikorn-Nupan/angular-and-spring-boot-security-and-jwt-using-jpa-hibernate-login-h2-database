@@ -1,7 +1,7 @@
 class User {
-  private _uid!: string
-  private _username!: string
-  private _password!: string
+  private _uid: string
+  private _username: string
+  private _password: string
 
   constructor(uid: string, username: string, password: string) {
     this._uid = uid;
@@ -33,6 +33,7 @@ class User {
     this._password = value;
   }
 }
+
 export {
   User
 }

@@ -13,21 +13,13 @@ export class FormLoginComponent {
   private router: Router
   private ngZone: NgZone
   private authenticationService: AuthenticationService
-  private user : User
+  public user : User
 
   constructor(router: Router, authenticationService: AuthenticationService, ngZone: NgZone) {
     this.router = router
     this.ngZone = ngZone
     this.authenticationService = authenticationService
-    this.user = new User('','','')
-  }
-
-  set username(value : string ) {
-    this.user.username = value
-  }
-
-  set password(value : string) {
-    this.user.password = value
+     this.user = new User('','','')
   }
 
   checkLogin() {
@@ -38,12 +30,16 @@ export class FormLoginComponent {
             /* response {jwt: 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4IiwiZXhwIjoxN…iQcqsvrmMIR8xFy4Ol9GEGVMmY6MOL8m9xDlQguWav0nUmaVw'} */
             this.ngZone.run(() => {
               // this.router.navigate(['book/list'],{queryParams : response, skipLocationChange:true } ) // go to path and send value on url (for hide parameter using skipLocationChange : true)
-              this.router.navigateByUrl('book/list') // go to path
+              this.router.navigateByUrl('book/list').then(() => {
+                window.location.reload()
+              }) // go to path
             })
           },
-          (error) => {
-            console.log(error.toString())
-            throw error
+          (error) => { // case login failed
+
+            this.router.navigateByUrl('login').then(() => {
+              window.location.reload()
+            })
           })
     );
   }

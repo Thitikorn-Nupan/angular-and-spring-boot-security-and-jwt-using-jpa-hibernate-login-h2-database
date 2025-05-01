@@ -1,46 +1,48 @@
 <div class="container" style="margin: 0 auto;">
 
-  <h2 class="text-center p-4 mt-4">Employee List</h2>
+  <h2 class="text-center p-4 mt-4">Book List</h2>
 
   <table class="table">
     <thead class="table-dark">
     <tr>
-      <th scope="col">Order</th>
-      <th scope="col">Bid</th>
-      <th scope="col">Title</th>
-      <th scope="col">Price</th>
+      <ng-container *ngFor="let header of headersBook">
+        <th scope="col">{{ header }}</th>
+      </ng-container>
       <th class="text-center" scope="col">Action</th>
     </tr>
     </thead>
 
-    <!--{{getEmployees()}}-->
     <tbody>
-    <tr *ngFor="
-      let book of books
-      let i = index;
-    ">
-      <td>{{i + 1}}</td>
-      <td>{{book.bid}}</td>
-      <td>{{book.title}}</td>
-      <td>{{book.price}}</td>
-      <td class="text-center">
-        <!-- use ActivatedRoute class for retrieve tid param on path // routerLink="/editing/{{tutorial.tid}}" -->
-        <!-- new path just use / -->
-        <button class="btn btn-sm btn-dark p-2 m-lg-1" routerLink="/book/edit/{{book.bid}}">Edit</button>
-        <!-- when clicked it had sent delete method for delete by pk //  (click)="delete(tutorial.tid , i)" -->
-        <button class="btn btn-sm btn-warning p-2">Delete</button>
-    </tr>
+   <ng-container *ngIf="books!==undefined">
+     <ng-container *ngFor="let book of books let i = index;">
+       <tr>
+         <td>{{ i + 1 }}</td>
+         <td>{{ book.bid }}</td>
+         <td>{{ book.title }}</td>
+         <td>{{ book.price }}</td>
+         <td class="text-center">
+           <!-- use ActivatedRoute class for retrieve tid param on path // routerLink="/editing/{{tutorial.tid}}" -->
+           <!-- new path just use / -->
+           <button class="btn btn-sm btn-dark p-2 m-lg-1" [routerLink]="getRouterLinkBookEdit(book.bid)">Edit</button>
+           <!-- when clicked it had sent delete method for delete by pk //  (click)="delete(tutorial.tid , i)" -->
+           <button class="btn btn-sm btn-warning p-2 disabled">Delete</button>
+       </tr>
+     </ng-container>
+   </ng-container>
     </tbody>
 
-    <tfoot>
-    <tr>
-      <td colspan="4"></td>
-      <td class="text-center">
-        <button class="btn btn-sm btn-danger p-2">Delete All</button>
-      </td>
-    </tr>
-    </tfoot>
+    <ng-container *ngIf="books !== undefined">
+      <ng-container *ngIf="books.length > 0">
+        <tfoot>
+        <tr>
+          <td colspan="4"></td>
+          <td class="text-center">
+            <button class="btn btn-sm btn-danger p-2 disabled">Delete All</button>
+          </td>
+        </tr>
+        </tfoot>
+      </ng-container>
+    </ng-container>
 
   </table>
-
 </div>

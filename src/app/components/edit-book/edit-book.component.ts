@@ -13,35 +13,35 @@ export class EditBookComponent implements OnInit {
 
   private httpService: HttpService
   private activatedRoute: ActivatedRoute // for retrieve params on path that sent by get method
-  private authenticationService: AuthenticationService
   private _book: Book | undefined
-  private readonly jwt: string | null
+  private declare jwt: string | null
+  protected selectDefault: boolean = false;
 
   constructor(httpService: HttpService, activatedRoute: ActivatedRoute, authenticationService: AuthenticationService) {
     this.httpService = httpService
     this.activatedRoute = activatedRoute
-    this.authenticationService = authenticationService
-    this.jwt = authenticationService.isUserLoggedInAndGetToken()
-    let user = authenticationService.isUserLoggedInAndGetUser()
-    console.log('user '+user+' has token '+this.jwt)
   }
 
   ngOnInit(): void {
-    this.httpService.getProgramingBook(this.jwt, this.activatedRoute.snapshot.paramMap.get("bid")).subscribe(
-      (response: Book) => {
-        this._book = new Book(response.bid,response.title,response.price)
-        /*
-        Can do
-        this._book.bid = response.bid
-        this._book.title = response.title
-        this._book.price = response.price
-        */
-        /*
-        Can do
-        this._book.setBid(response.bid)
-        this._book.setTitle(response.title)
-        this._book.setPrice(response.price)*/
-      })
+    if (typeof window !== 'undefined' && window.sessionStorage) {
+      this.jwt = sessionStorage.getItem('token')! // retrieve token from user can be logged in
+      this.httpService.getProgramingBook(this.jwt, this.activatedRoute.snapshot.paramMap.get("bid")).subscribe(
+        (response: Book) => {
+          this._book = new Book(response.bid,response.title,response.price)
+          /**
+          Can do
+          this._book.bid = response.bid
+          this._book.title = response.title
+          this._book.price = response.price
+          */
+          /**
+          Can do
+          this._book.setBid(response.bid)
+          this._book.setTitle(response.title)
+          this._book.setPrice(response.price)
+          */
+        })
+    }
   }
 
 

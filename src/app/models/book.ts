@@ -1,8 +1,8 @@
 class Book {
 
-  private _bid!: string
-  private _title!: string
-  private _price!: number
+  private _bid: string
+  private _title: string
+  private _price: number
 
   constructor(bid: string, title: string, price: number) {
     this._bid = bid;
