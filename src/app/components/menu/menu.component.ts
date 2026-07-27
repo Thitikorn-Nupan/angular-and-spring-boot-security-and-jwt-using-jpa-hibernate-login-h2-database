@@ -8,16 +8,16 @@ import {Router} from "@angular/router";
 })
 export class MenuComponent implements OnInit {
   protected isUserLoggedIn: boolean = false;
-  protected title: string;
-  protected routersLink : {router : string , label : string , header? : string} [];
+  protected readonly title: string;
+  protected readonly routersLink: { router: string, label: string, header?: string } [];
 
-  constructor(private router: Router,private ngZone: NgZone) {
-    this.routersLink = [
-      {router : 'logout', label : 'Logout'},
-      {router : 'login', label : 'Login'},
-      {router : 'book/list', label : 'Book Table',header : 'Book store (API)'},
-    ]
+  constructor(private readonly router: Router, private readonly ngZone: NgZone) {
     this.title = 'Angular + Spring Boot (Authenticate JWT By Spring Security)'
+    this.routersLink = [
+      {router: 'logout', label: 'Logout'},
+      {router: 'login', label: 'Login'},
+      {router: 'book/list', label: 'Book Table', header: 'Book store (API)'},
+    ]
   }
 
   ngOnInit(): void {
@@ -26,10 +26,8 @@ export class MenuComponent implements OnInit {
     }
   }
 
-  protected logoutClick() {
+  protected logoutClick() : void {
     sessionStorage.clear()
-    this.ngZone.run(() => {
-      this.router.navigateByUrl('').then(()=>window.location.reload())
-    })
+    this.ngZone.run(() => this.router.navigateByUrl('').then(() => window.location.reload()))
   }
 }

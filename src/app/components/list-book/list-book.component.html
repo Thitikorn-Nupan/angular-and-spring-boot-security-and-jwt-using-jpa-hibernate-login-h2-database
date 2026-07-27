@@ -13,22 +13,22 @@
     </thead>
 
     <tbody>
-   <ng-container *ngIf="books!==undefined">
-     <ng-container *ngFor="let book of books let i = index;">
-       <tr>
-         <td>{{ i + 1 }}</td>
-         <td>{{ book.bid }}</td>
-         <td>{{ book.title }}</td>
-         <td>{{ book.price }}</td>
-         <td class="text-center">
-           <!-- use ActivatedRoute class for retrieve tid param on path // routerLink="/editing/{{tutorial.tid}}" -->
-           <!-- new path just use / -->
-           <button class="btn btn-sm btn-dark p-2 m-lg-1" [routerLink]="getRouterLinkBookEdit(book.bid)">Edit</button>
-           <!-- when clicked it had sent delete method for delete by pk //  (click)="delete(tutorial.tid , i)" -->
-           <button class="btn btn-sm btn-warning p-2 disabled">Delete</button>
-       </tr>
-     </ng-container>
-   </ng-container>
+    <ng-container *ngIf="books!==undefined">
+      <ng-container *ngFor="let book of books let i = index;">
+        <tr>
+          <td>{{ i + 1 }}</td>
+          <td>{{ book.bid }}</td>
+          <td>{{ book.title }}</td>
+          <td>{{ book.price }}</td>
+          <td class="text-center">
+            <!-- use ActivatedRoute class for retrieve tid param on path // routerLink="/editing/{{tutorial.tid}}" -->
+            <!-- new path just use / -->
+            <button class="btn btn-sm btn-dark p-2 m-lg-1" [routerLink]="getRouterLinkBookEdit(book.bid)">Edit</button>
+            <!-- when clicked it had sent delete method for delete by pk //  (click)="delete(tutorial.tid , i)" -->
+            <button class="btn btn-sm btn-warning p-2 disabled">Delete</button>
+        </tr>
+      </ng-container>
+    </ng-container>
     </tbody>
 
     <ng-container *ngIf="books !== undefined">

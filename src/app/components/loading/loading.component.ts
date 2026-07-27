@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'loading',
@@ -6,5 +6,4 @@ import { Component } from '@angular/core';
   styleUrl: './loading.component.css'
 })
 export class LoadingComponent {
-
 }

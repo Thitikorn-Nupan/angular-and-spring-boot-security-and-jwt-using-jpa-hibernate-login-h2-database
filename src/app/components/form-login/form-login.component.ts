@@ -10,37 +10,25 @@ import {User} from "../../models/user";
 })
 export class FormLoginComponent {
 
-  private router: Router
-  private ngZone: NgZone
-  private authenticationService: AuthenticationService
-  public user : User
+  protected user: User
 
-  constructor(router: Router, authenticationService: AuthenticationService, ngZone: NgZone) {
-    this.router = router
-    this.ngZone = ngZone
-    this.authenticationService = authenticationService
-     this.user = new User('','','')
+  constructor(private readonly router: Router, private readonly authenticationService: AuthenticationService, private readonly ngZone: NgZone) {
+    this.user = new User('', '', '')
   }
 
-  checkLogin() {
+  protected checkLogin() : void {
     (
-      this.authenticationService.authenticate(this.user.username, this.user.password)
-        .subscribe(
-          () => { // (response)
-            /* response {jwt: 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4IiwiZXhwIjoxN…iQcqsvrmMIR8xFy4Ol9GEGVMmY6MOL8m9xDlQguWav0nUmaVw'} */
-            this.ngZone.run(() => {
-              // this.router.navigate(['book/list'],{queryParams : response, skipLocationChange:true } ) // go to path and send value on url (for hide parameter using skipLocationChange : true)
-              this.router.navigateByUrl('book/list').then(() => {
-                window.location.reload()
-              }) // go to path
-            })
-          },
-          (error) => { // case login failed
-
-            this.router.navigateByUrl('login').then(() => {
-              window.location.reload()
-            })
+      this.authenticationService.authenticate(this.user.username, this.user.password).subscribe((response) => { // (response)
+          /* response {jwt: 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4IiwiZXhwIjoxN…iQcqsvrmMIR8xFy4Ol9GEGVMmY6MOL8m9xDlQguWav0nUmaVw'} */
+          if (response.jwt) {
+            this.ngZone.run(() => this.router.navigateByUrl('book/list').then(() => window.location.reload()))
+          }
+        },
+        (error) => { // case login failed
+          this.router.navigateByUrl('login').then(() => {
+            window.location.reload()
           })
+        })
     );
   }
 

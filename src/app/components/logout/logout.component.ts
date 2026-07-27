@@ -9,25 +9,13 @@ import {Router} from "@angular/router";
 })
 export class LogoutComponent implements OnInit {
 
-  private authenticationService: AuthenticationService
-  private router: Router
-  private ngZone: NgZone
-
-  constructor(authenticationService: AuthenticationService, router: Router, ngZone: NgZone) {
-    this.authenticationService = authenticationService;
-    this.router = router;
-    this.ngZone = ngZone;
+  constructor(private readonly authenticationService: AuthenticationService, private readonly router: Router, private readonly ngZone: NgZone) {
   }
 
   ngOnInit(): void {
     this.authenticationService.logOut()
-    /*let user = this.authenticationService.isUserLoggedInAndGetUser() // it will be null
-    let jwt = this.authenticationService.isUserLoggedInAndGetToken() // it will be null*/
-    /*console.log('(after deleted session storage) user '+user+' has token '+jwt)*/
     this.ngZone.run(() => {
-      this.router.navigateByUrl('login').then(()=> {
-        window.location.reload()
-      }) // go to path
+      this.router.navigateByUrl('login').then(() => window.location.reload()) // go to path
     })
   }
 

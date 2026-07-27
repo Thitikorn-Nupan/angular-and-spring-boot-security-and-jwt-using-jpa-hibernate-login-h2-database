@@ -2,7 +2,6 @@
   <div class="container-fluid">
     <a class="navbar-brand p-lg-3">{{title}}</a>
     <div class=" collapse navbar-collapse" id="navbarNavDropdown">
-
       <ul class="navbar-nav ms-auto ">
         <!--
         <div *ngIf="isUserLoggedIn else login">
@@ -11,17 +10,22 @@
           </li>
         </div>
         -->
-
         <ng-template #logout>
           <li class="nav-item p-lg-3">
             <!--<a class="nav-link mx-2" [routerLink]="routersLink[0].router" routerLinkActive="active">{{routersLink[0].label}}</a>-->
-            <a class="nav-link mx-2" style="cursor: pointer" (click)="logoutClick()">{{routersLink[0].label}}</a>
+            <a class="nav-link mx-2"
+               style="cursor: pointer"
+               (click)="logoutClick()">{{routersLink[0].label}}
+            </a>
           </li>
         </ng-template>
 
         <ng-template #login>
           <li class="nav-item p-lg-3">
-            <a class="nav-link mx-2" [routerLink]="routersLink[1].router" routerLinkActive="active">{{routersLink[1].label}}</a>
+            <a class="nav-link mx-2"
+               [routerLink]="routersLink[1].router"
+               routerLinkActive="active">{{routersLink[1].label}}
+            </a>
           </li>
         </ng-template>
 
